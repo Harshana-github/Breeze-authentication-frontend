@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 import "./Form.css";
 import show from "../images/show.png";
 import hide from "../images/hide.png";
+import right from "../images/right.png";
+import wrong from "../images/wrong.png";
 
 const Register = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [passwordIcon, setPasswordIcon] = useState(hide);
@@ -14,6 +17,28 @@ const Register = () => {
   const [confPasswordIcon, setConfPasswordIcon] = useState(hide);
   const [confPasswordFieldType, setConfPasswordFieldType] =
     useState("password");
+
+  const [isValidEmail, setIsValidEmail] = useState(null);
+
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+  let validationTimeout;
+
+  const emailHandler = (e) => {
+    const inputEmail = e.target.value;
+    setEmail(inputEmail);
+
+    clearTimeout(validationTimeout);
+
+    if (inputEmail === "") {
+      setIsValidEmail(null);
+    } else {
+      validationTimeout = setTimeout(() => {
+        const emailValidation = emailPattern.test(inputEmail);
+        setIsValidEmail(emailValidation);
+      }, 1);
+    }
+  };
 
   const passwordIconHandler = () => {
     if (passwordFieldType === "password") {
@@ -35,6 +60,13 @@ const Register = () => {
     }
   };
 
+  const wrongIconHandler = (e) => {
+    if (isValidEmail === false) {
+      setEmail((prevEmail) => "");
+      setIsValidEmail(null);
+    }
+  };
+
   return (
     <div className="main">
       <div className="main-form-div">
@@ -48,10 +80,23 @@ const Register = () => {
               <span>Email</span>
             </div>
             <div>
-              <input />
-              <div className="login-field-error-massages">
-                Invalid Email Address
-              </div>
+              <input
+                type="text"
+                id="email"
+                value={email}
+                onChange={emailHandler}
+                placeholder="Enter your email address"
+              />
+              {isValidEmail === true || isValidEmail === false ? (
+                <img
+                  src={isValidEmail === true ? right : wrong}
+                  alt="right-wrong-icon"
+                  className="password-right-wrong-icon"
+                  onClick={wrongIconHandler}
+                />
+              ) : (
+                <div></div>
+              )}
             </div>
           </div>
           <br />
@@ -61,9 +106,6 @@ const Register = () => {
             </div>
             <div>
               <input />
-              <div className="login-field-error-massages">
-                Cannot add Numbers
-              </div>
             </div>
           </div>
           <br />
@@ -84,9 +126,6 @@ const Register = () => {
                 className="password-show-hide-icon"
                 onClick={passwordIconHandler}
               />
-              <div className="login-field-error-massages">
-                Password not Strong
-              </div>
             </div>
           </div>
           <br />
@@ -97,7 +136,7 @@ const Register = () => {
             <div>
               <input
                 type={confPasswordFieldType}
-                id="password"
+                id="conf-password"
                 className="password-input-container"
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -107,12 +146,14 @@ const Register = () => {
                 className="password-show-hide-icon"
                 onClick={connfPasswordIconHandler}
               />
-              <div className="login-field-error-massages">
-                Password not matched
-              </div>
             </div>
           </div>
         </div>
+        {isValidEmail === false && (
+          <div className="login-field-error-massages-both">
+            Invalid email address
+          </div>
+        )}
         <div className="button-area">
           <button className="button">Signup</button>
         </div>

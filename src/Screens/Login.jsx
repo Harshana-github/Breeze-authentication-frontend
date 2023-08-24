@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import "./Form.css";
 import show from "../images/show.png";
 import hide from "../images/hide.png";
+import right from "../images/right.png";
+import wrong from "../images/wrong.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +14,28 @@ const Login = () => {
   const [passwordIcon, setPasswordIcon] = useState(hide);
   const [passwordFieldType, setPasswordFieldType] = useState("password");
 
+  const [isValidEmail, setIsValidEmail] = useState(null);
+
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+  let validationTimeout;
+
+  const emailHandler = (e) => {
+    const inputEmail = e.target.value;
+    setEmail(inputEmail);
+
+    clearTimeout(validationTimeout);
+
+    if (inputEmail === "") {
+      setIsValidEmail(null);
+    } else {
+      validationTimeout = setTimeout(() => {
+        const emailValidation = emailPattern.test(inputEmail);
+        setIsValidEmail(emailValidation);
+      }, 1);
+    }
+  };
+
   const passwordIconHandler = () => {
     if (passwordFieldType === "password") {
       setPasswordFieldType("text");
@@ -19,6 +43,13 @@ const Login = () => {
     } else {
       setPasswordFieldType("password");
       setPasswordIcon(hide);
+    }
+  };
+
+  const wrongIconHandler = (e) => {
+    if (isValidEmail === false) {
+      setEmail((prevEmail) => "");
+      setIsValidEmail(null);
     }
   };
 
@@ -38,11 +69,20 @@ const Login = () => {
               <input
                 type="text"
                 id="email"
-                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                onChange={emailHandler}
+                placeholder="Enter your email address"
               />
-              <div className="login-field-error-massages">
-                Invalid Email Address
-              </div>
+              {isValidEmail === true || isValidEmail === false ? (
+                <img
+                  src={isValidEmail === true ? right : wrong}
+                  alt="right-wrong-icon"
+                  className="password-right-wrong-icon"
+                  onClick={wrongIconHandler}
+                />
+              ) : (
+                <div></div>
+              )}
             </div>
           </div>
           <br />
@@ -63,15 +103,15 @@ const Login = () => {
                 className="password-show-hide-icon"
                 onClick={passwordIconHandler}
               />
-              <div className="login-field-error-massages">
-                Password not Strong
-              </div>
             </div>
           </div>
         </div>
-        <div className="login-field-error-massages-both">
-          Email and Password Does Not matched
-        </div>
+        {isValidEmail === false && (
+          <div className="login-field-error-massages-both">
+            Invalid email address
+          </div>
+        )}
+
         <div className="button-area">
           <button className="button">Login</button>
         </div>
