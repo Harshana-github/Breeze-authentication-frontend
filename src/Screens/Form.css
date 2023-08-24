@@ -1,0 +1,97 @@
+.main-form-div {
+    width: 500px;
+    background-color: white;
+    box-shadow: 5px 5px 50px rgb(171, 204, 238);
+    border-radius: 20px;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 50px;
+
+}
+
+.main{
+    margin-top: 100px;
+    justify-content: center;
+    display: flex;
+    min-width: 500px;
+}
+
+.form-title{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: rgb(144, 144, 158);
+    font-size: 20px;
+}
+
+.form-input-fields{
+    align-items: center;
+    margin: 0px 70px;
+    margin-bottom: 20px;
+}
+
+.form-input-field-item{
+    display: flex;
+    justify-content:space-between;
+    justify-items: center;
+    margin-bottom: 10px;
+}
+
+.button-area{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.button {
+    background: rgb(153, 153, 225);
+    border: none;
+    font-size: larger;
+    border-radius: 5px;
+    width: 150px;
+    padding: 8px;
+    cursor: pointer;
+    color: white;
+  }
+  
+.button:hover {
+    background: rgb(171, 171, 228);
+  }
+
+span{
+    color: rgb(144, 144, 158);
+    font-size: 1.3rem;
+  }
+
+input{
+    width: 210px;
+    height: 23px;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+  }
+
+input:hover{
+    border: 1px solid #47b2d9;
+  }
+
+.login-field-error-massages{
+    color: rgb(192, 128, 128);
+  }
+
+.login-field-error-massages-both{
+    color: rgb(192, 128, 128);
+    display: flex;
+    justify-content: center;
+}
+
+.form-contents{
+    margin-top: 20px;
+}
+
+.form-contents-item{
+    display: flex;
+    justify-content: center;
+    font-size: larger;
+    margin-bottom: 5px;
+    color: rgb(144, 144, 158);
+}
