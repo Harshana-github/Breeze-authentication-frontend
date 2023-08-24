@@ -1,9 +1,27 @@
-import React from "react";
-
-import "./Form.css";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import "./Form.css";
+import show from "../images/show.png";
+import hide from "../images/hide.png";
+
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [passwordIcon, setPasswordIcon] = useState(hide);
+  const [passwordFieldType, setPasswordFieldType] = useState("password");
+
+  const passwordIconHandler = () => {
+    if (passwordFieldType === "password") {
+      setPasswordFieldType("text");
+      setPasswordIcon(show);
+    } else {
+      setPasswordFieldType("password");
+      setPasswordIcon(hide);
+    }
+  };
+
   return (
     <div className="main">
       <div className="main-form-div">
@@ -17,18 +35,34 @@ const Login = () => {
               <span>Email</span>
             </div>
             <div>
-              <input />
+              <input
+                type="text"
+                id="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
               <div className="login-field-error-massages">
                 Invalid Email Address
               </div>
             </div>
-          </div><br/>
+          </div>
+          <br />
           <div className="form-input-field-item">
             <div>
               <span>Password</span>
             </div>
             <div>
-              <input />
+              <input
+                type={passwordFieldType}
+                id="password"
+                className="password-input-container"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <img
+                src={passwordIcon}
+                alt="show-icon"
+                className="password-show-hide-icon"
+                onClick={passwordIconHandler}
+              />
               <div className="login-field-error-massages">
                 Password not Strong
               </div>
@@ -45,7 +79,11 @@ const Login = () => {
           <Link className="form-contents-item">Forgot Password</Link>
           <div className="form-contents-item" style={{ color: "#9b7dff" }}>
             Not a member yet? &nbsp;
-            <Link to="/register" className="form-contents-item" style={{ fontSize: 18 }}>
+            <Link
+              to="/register"
+              className="form-contents-item"
+              style={{ fontSize: 18 }}
+            >
               Sign Up
             </Link>
           </div>

@@ -1,9 +1,40 @@
-import React from "react";
-
-import "./Form.css";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import "./Form.css";
+import show from "../images/show.png";
+import hide from "../images/hide.png";
+
 const Register = () => {
+  const [password, setPassword] = useState("");
+
+  const [passwordIcon, setPasswordIcon] = useState(hide);
+  const [passwordFieldType, setPasswordFieldType] = useState("password");
+
+  const [confPasswordIcon, setConfPasswordIcon] = useState(hide);
+  const [confPasswordFieldType, setConfPasswordFieldType] =
+    useState("password");
+
+  const passwordIconHandler = () => {
+    if (passwordFieldType === "password") {
+      setPasswordFieldType("text");
+      setPasswordIcon(show);
+    } else {
+      setPasswordFieldType("password");
+      setPasswordIcon(hide);
+    }
+  };
+
+  const connfPasswordIconHandler = () => {
+    if (confPasswordFieldType === "password") {
+      setConfPasswordFieldType("text");
+      setConfPasswordIcon(show);
+    } else {
+      setConfPasswordFieldType("password");
+      setConfPasswordIcon(hide);
+    }
+  };
+
   return (
     <div className="main">
       <div className="main-form-div">
@@ -41,7 +72,18 @@ const Register = () => {
               <span>Password</span>
             </div>
             <div>
-              <input />
+              <input
+                type={passwordFieldType}
+                id="password"
+                className="password-input-container"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <img
+                src={passwordIcon}
+                alt="show-icon"
+                className="password-show-hide-icon"
+                onClick={passwordIconHandler}
+              />
               <div className="login-field-error-massages">
                 Password not Strong
               </div>
@@ -53,9 +95,20 @@ const Register = () => {
               <span>Con. Password</span>
             </div>
             <div>
-              <input />
+              <input
+                type={confPasswordFieldType}
+                id="password"
+                className="password-input-container"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <img
+                src={confPasswordIcon}
+                alt="show-icon"
+                className="password-show-hide-icon"
+                onClick={connfPasswordIconHandler}
+              />
               <div className="login-field-error-massages">
-                Password not Matched
+                Password not matched
               </div>
             </div>
           </div>
